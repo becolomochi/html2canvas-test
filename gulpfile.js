@@ -25,14 +25,14 @@ gulp.task('serve', ['js', 'sass', 'pug'], function() {
 
 gulp.task('js', function() {
   return gulp.src(input + '/js/**/[^_]*.js')
-      .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-      .pipe(babel({
-        presets: ['env']
-      }))
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest(output + '/js'))
+      // .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+      // .pipe(babel({
+      //   presets: ['env']
+      // }))
+      // .pipe(sourcemaps.init())
+      // .pipe(uglify())
+      // .pipe(sourcemaps.write('./maps'))
+      // .pipe(gulp.dest(output + '/js'))
       .pipe(browserSync.stream());
 });
 

@@ -9,6 +9,9 @@ append variables
 
 block content
   .wrapper
-    main
+    main#target
       p あいうえお
       p （・-・）
+      p
+        button(type="button" id="button") html2canvas
+        a#getImage(style="display:none;" download="image.png") 画像保存

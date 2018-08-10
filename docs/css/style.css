@@ -1,0 +1,23 @@
+html {
+  font-size: 62.5%;
+  line-height: 1.75;
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  /* iOS */ }
+
+main {
+  display: block; }
+
+html, body, div iframe,
+blockquote, a, img,
+dl, dt, dd, ol, ul, li,
+form, label,
+table, th, td,
+article, aside, canvas,
+footer, header,
+menu, nav, section, main {
+  box-sizing: border-box; }
+
+body {
+  font-size: 1.6rem;
+  color: #333; }

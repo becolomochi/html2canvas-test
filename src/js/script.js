@@ -1,5 +1,4 @@
 import html2canvas from 'html2canvas';
-// const html2canvas = require('html2canvas');
 
 function capture() {
   html2canvas(document.getElementById('target')).then(function(canvas) {
@@ -9,17 +8,17 @@ function capture() {
 }
 
 function downloadImage(data) {
-  let fname = 'capture_' + new Date()+ ".png";
+  let fileName = 'capture_' + new Date()+ '.png';
   let encdata = atob(data.replace(/^.*,/, ''));
   let outdata = new Uint8Array(encdata.length);
   for (let i = 0; i < encdata.length; i++) {
     outdata[i] = encdata.charCodeAt(i);
   }
-  let blob = new Blob([outdata], ["image/png"]);
+  let blob = new Blob([outdata], ['image/png']);
   
-  document.getElementById("getImage").href = data;			//base64そのまま設定
-  document.getElementById("getImage").download = fname;		//ダウンロードファイル名設定
-  document.getElementById("getImage").click(); 			//自動クリック
+  document.getElementById('getImage').href = data;
+  document.getElementById('getImage').download = fileName;
+  document.getElementById('getImage').click();
 }
 
 document.getElementById('button').onclick = () => {

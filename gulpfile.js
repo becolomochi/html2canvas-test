@@ -1,12 +1,17 @@
-var gulp = require('gulp');
-var pug = require('gulp-pug');
-var browserSync = require('browser-sync').create();
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var babel = require('gulp-babel');
-var plumber = require('gulp-plumber');
-var notify = require('gulp-notify');
-var sourcemaps = require('gulp-sourcemaps');
+const gulp = require('gulp');
+const pug = require('gulp-pug');
+const browserSync = require('browser-sync').create();
+const sass = require('gulp-sass');
+const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
+const plumber = require('gulp-plumber');
+const notify = require('gulp-notify');
+const sourcemaps = require('gulp-sourcemaps');
+const webpackStream = require("webpack-stream");
+const webpack = require("webpack");
+
+// webpack config
+const webpackConfig = require("./webpack.config");
 
 const input = 'src';
 // const output = 'docs';
@@ -14,7 +19,7 @@ const output = 'dist';
 
 gulp.task('build', ['js', 'sass', 'pug', 'iconcopy']);
 
-gulp.task('serve', ['js', 'sass', 'pug'], function() {
+gulp.task('serve', ['js', 'sass', 'pug'], () => {
   browserSync.init({
     server: './' + output
   });
@@ -23,20 +28,14 @@ gulp.task('serve', ['js', 'sass', 'pug'], function() {
   gulp.watch(input + "/**/*.pug", ['pug']);
 });
 
-gulp.task('js', function() {
-  return gulp.src(input + '/js/**/[^_]*.js')
-      // .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-      // .pipe(babel({
-      //   presets: ['env']
-      // }))
-      // .pipe(sourcemaps.init())
-      // .pipe(uglify())
-      // .pipe(sourcemaps.write('./maps'))
-      // .pipe(gulp.dest(output + '/js'))
-      .pipe(browserSync.stream());
+gulp.task('js', () => {
+  // ☆ webpackStreamの第2引数にwebpackを渡す☆
+  return webpackStream(webpackConfig, webpack)
+    .pipe(gulp.dest('dist'))
+    .pipe(browserSync.stream());
 });
 
-gulp.task('sass', function() {
+gulp.task('sass', () => {
   return gulp.src(input + '/scss/**/[^_]*.scss')
       .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
       .pipe(sourcemaps.init())
@@ -46,14 +45,14 @@ gulp.task('sass', function() {
       .pipe(browserSync.stream());
 });
 
-gulp.task('pug', function() {
+gulp.task('pug', () => {
   return gulp.src(input + '/**/[^_]*.pug')
   .pipe(pug())
   .pipe(gulp.dest(output + '/'))
   .pipe(browserSync.stream());
 });
 
-gulp.task('iconcopy', function() {
+gulp.task('iconcopy', () => {
   return gulp.src(input + '/favicon.ico')
     .pipe(gulp.dest(output + '/'))
     .pipe(browserSync.stream());
